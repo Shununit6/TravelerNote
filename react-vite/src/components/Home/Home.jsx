@@ -52,8 +52,10 @@ function Home() {
     }
   }, [selected, size]);
 
-  const points = useMemo(
-    () => wonders.map((w) => ({ ...w, size: 0.7, color: '#ff6b6b' })),
+  const points = useMemo(() => wonders.map((w) => ({ ...w })), []);
+
+  const ringColorFn = useMemo(
+    () => () => (t) => `rgba(135, 206, 250, ${1 - t})`,
     [],
   );
 
@@ -107,9 +109,9 @@ function Home() {
                 pointsData={points}
                 pointLat="lat"
                 pointLng="lng"
-                pointColor="color"
-                pointAltitude={0.02}
-                pointRadius="size"
+                pointColor={() => '#ffffff'}
+                pointAltitude={0.005}
+                pointRadius={0.32}
                 pointLabel={(d) => `
                   <div style="background:rgba(20,20,30,0.92);color:#fff;padding:8px 12px;border-radius:6px;font-family:sans-serif;max-width:220px;">
                     <strong>${d.name}</strong><br/>
@@ -117,6 +119,14 @@ function Home() {
                   </div>
                 `}
                 onPointClick={handleClick}
+                ringsData={points}
+                ringLat="lat"
+                ringLng="lng"
+                ringMaxRadius={2.5}
+                ringPropagationSpeed={1.4}
+                ringRepeatPeriod={1800}
+                ringColor={ringColorFn}
+                ringAltitude={0.005}
                 atmosphereColor="#88c0ff"
                 atmosphereAltitude={0.18}
               />
