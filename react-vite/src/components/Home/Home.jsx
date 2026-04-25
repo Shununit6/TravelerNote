@@ -1,53 +1,105 @@
-// import React from 'react';
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import wonders from '../../data/wonders.json';
+import { getAllPlans } from '../../redux/plans';
+import { getAllPlaces } from '../../redux/places';
+import { getAllStories } from '../../redux/stories';
+import GlobeErrorBoundary from './GlobeErrorBoundary';
+import WonderPanel from './WonderPanel';
 import './Home.css';
-// import MenuLibrary from '../MenuLibrary';
-// import MainPageContent from '../MainPageContent';
-import background1 from '../../../src/images/background1.png';
-import background2 from '../../../src/images/background2.png';
-import background3 from '../../../src/images/background3.png';
-import { Link } from 'react-router-dom';
-import { useSelector } from "react-redux";
-import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
-import SignupFormModal from '../SignupFormModal';
 
-function Home(){
-    const sessionUser = useSelector((state) => state.session.user);
-	return (
-        <>
-		<nav>
-			<div id="homewrapper">
-                <img id="backgroundimg1" src={background1} alt="backgroundimg1"/>
-                <p id="hometext1"><h3>Hey there, fellow wanderer!</h3> Welcome to Traveler Note, your ultimate hub for all things travel-tastic!
-                    Whether you are mapping out your next big adventure, seeking out hidden gems, or itching to swap stories
-                    with fellow globetrotters, you have come to the right place! <br></br>
-                    <Link to="/places" > <button id="hometextlink1">See what has been created</button> </Link>
-                </p>
-                <p id="hometext2">Here, the world is your playground, and the possibilities are as endless as the horizon. Share your travel plans,
-                    dish out tips on must-visit destinations, or regale us with your most epic tales from the road. Let us turn those
-                    wanderlust dreams into reality, one adventure at a time! <br></br>
-                    {sessionUser &&
-                    <Link to="/places/current" > <button id="hometextlink2">View things I have added</button> </Link>}
-                </p>
-                <img id="backgroundimg3" src={background3} alt="backgroundimg3"/>
-                <img id="backgroundimg2" src={background2} alt="backgroundimg2"/>
-                <p id="hometext3"> So grab your passport, pack your sense of adventure, and let us embark on this journey together.
-                Adventure awaits! <br></br>
-                {sessionUser &&
-                <Link to="/plans/new" > <button id="hometextlink3">Start a new plan</button> </Link>}
-                {!sessionUser &&
-                <div>
-                    <button id="hometextsignup">
-                    <OpenModalMenuItem
-                    itemText="Join Traveler Note"
-                    modalComponent={<SignupFormModal />}
-                    />
-                    </button>
-                </div>}
-                </p>
-			</div>
-		</nav>
-        </>
-	)
+const Globe = lazy(() => import('react-globe.gl'));
+
+function Home() {
+  const dispatch = useDispatch();
+  const globeRef = useRef();
+  const [size, setSize] = useState({ w: 0, h: 0 });
+  const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    dispatch(getAllPlans());
+    dispatch(getAllPlaces());
+    dispatch(getAllStories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const update = () => {
+      const el = document.getElementById('home-globe-stage');
+      if (el) setSize({ w: el.clientWidth, h: el.clientHeight });
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  useEffect(() => {
+    const g = globeRef.current;
+    if (!g) return;
+    const controls = g.controls?.();
+    if (controls) {
+      controls.autoRotate = !selected;
+      controls.autoRotateSpeed = 0.6;
+      controls.enableZoom = true;
+    }
+  }, [selected, size]);
+
+  const points = useMemo(
+    () => wonders.map((w) => ({ ...w, size: 0.7, color: '#ff6b6b' })),
+    [],
+  );
+
+  const handleClick = (point) => {
+    setSelected(point);
+    const g = globeRef.current;
+    if (g && point) {
+      g.pointOfView({ lat: point.lat, lng: point.lng, altitude: 1.6 }, 1000);
+    }
+  };
+
+  return (
+    <div className="home-globe">
+      <div className="home-globe-overlay">
+        <h1>Where to next?</h1>
+        <p>Spin the globe. Click a wonder. Plan, share, and tell its story.</p>
+      </div>
+
+      <div id="home-globe-stage" className="home-globe-stage">
+        <GlobeErrorBoundary>
+          <Suspense fallback={<div className="home-globe-loading">Loading globe…</div>}>
+            {size.w > 0 && (
+              <Globe
+                ref={globeRef}
+                width={size.w}
+                height={size.h}
+                globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+                bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
+                backgroundColor="rgba(0,0,0,0)"
+                pointsData={points}
+                pointLat="lat"
+                pointLng="lng"
+                pointColor="color"
+                pointAltitude={0.02}
+                pointRadius="size"
+                pointLabel={(d) => `
+                  <div style="background:rgba(20,20,30,0.92);color:#fff;padding:8px 12px;border-radius:6px;font-family:sans-serif;max-width:220px;">
+                    <strong>${d.name}</strong><br/>
+                    <span style="opacity:0.75;font-size:12px;">${d.city}, ${d.country}</span>
+                  </div>
+                `}
+                onPointClick={handleClick}
+                atmosphereColor="#88c0ff"
+                atmosphereAltitude={0.18}
+              />
+            )}
+          </Suspense>
+        </GlobeErrorBoundary>
+      </div>
+
+      {selected && (
+        <WonderPanel wonder={selected} onClose={() => setSelected(null)} />
+      )}
+    </div>
+  );
 }
 
 export default Home;

@@ -1,0 +1,137 @@
+[
+  {
+    "id": "great-wall",
+    "name": "Great Wall of China",
+    "lat": 40.4319,
+    "lng": 116.5704,
+    "city": "Beijing",
+    "country": "China",
+    "blurb": "Ancient fortifications winding 13,000 miles across northern China."
+  },
+  {
+    "id": "machu-picchu",
+    "name": "Machu Picchu",
+    "lat": -13.1631,
+    "lng": -72.5450,
+    "city": "Cusco",
+    "country": "Peru",
+    "blurb": "15th-century Inca citadel high in the Andes."
+  },
+  {
+    "id": "petra",
+    "name": "Petra",
+    "lat": 30.3285,
+    "lng": 35.4444,
+    "city": "Ma'an",
+    "country": "Jordan",
+    "blurb": "Rose-red city carved into desert sandstone cliffs."
+  },
+  {
+    "id": "colosseum",
+    "name": "Colosseum",
+    "lat": 41.8902,
+    "lng": 12.4922,
+    "city": "Rome",
+    "country": "Italy",
+    "blurb": "Iconic Roman amphitheater built in 80 AD."
+  },
+  {
+    "id": "taj-mahal",
+    "name": "Taj Mahal",
+    "lat": 27.1751,
+    "lng": 78.0421,
+    "city": "Agra",
+    "country": "India",
+    "blurb": "Ivory-white marble mausoleum on the Yamuna river."
+  },
+  {
+    "id": "christ-redeemer",
+    "name": "Christ the Redeemer",
+    "lat": -22.9519,
+    "lng": -43.2105,
+    "city": "Rio de Janeiro",
+    "country": "Brazil",
+    "blurb": "Art Deco statue overlooking Rio from Mount Corcovado."
+  },
+  {
+    "id": "chichen-itza",
+    "name": "Chichen Itza",
+    "lat": 20.6843,
+    "lng": -88.5678,
+    "city": "Yucatan",
+    "country": "Mexico",
+    "blurb": "Maya ruins anchored by the El Castillo step-pyramid."
+  },
+  {
+    "id": "eiffel-tower",
+    "name": "Eiffel Tower",
+    "lat": 48.8584,
+    "lng": 2.2945,
+    "city": "Paris",
+    "country": "France",
+    "blurb": "Wrought-iron tower, the symbol of Paris since 1889."
+  },
+  {
+    "id": "pyramids-giza",
+    "name": "Pyramids of Giza",
+    "lat": 29.9792,
+    "lng": 31.1342,
+    "city": "Giza",
+    "country": "Egypt",
+    "blurb": "The last surviving wonder of the ancient world."
+  },
+  {
+    "id": "santorini",
+    "name": "Santorini",
+    "lat": 36.3932,
+    "lng": 25.4615,
+    "city": "Santorini",
+    "country": "Greece",
+    "blurb": "Whitewashed cliffside villages above an Aegean caldera."
+  },
+  {
+    "id": "mount-fuji",
+    "name": "Mount Fuji",
+    "lat": 35.3606,
+    "lng": 138.7274,
+    "city": "Fujinomiya",
+    "country": "Japan",
+    "blurb": "Japan's tallest peak and a sacred volcanic landmark."
+  },
+  {
+    "id": "grand-canyon",
+    "name": "Grand Canyon",
+    "lat": 36.1069,
+    "lng": -112.1129,
+    "city": "Grand Canyon Village",
+    "country": "United States",
+    "blurb": "Mile-deep gorge carved by the Colorado River."
+  },
+  {
+    "id": "sydney-opera",
+    "name": "Sydney Opera House",
+    "lat": -33.8568,
+    "lng": 151.2153,
+    "city": "Sydney",
+    "country": "Australia",
+    "blurb": "Sail-shelled performing arts hall on Sydney Harbour."
+  },
+  {
+    "id": "iguazu-falls",
+    "name": "Iguazu Falls",
+    "lat": -25.6953,
+    "lng": -54.4367,
+    "city": "Foz do Iguacu",
+    "country": "Brazil",
+    "blurb": "275 cascading waterfalls along the Brazil-Argentina border."
+  },
+  {
+    "id": "angkor-wat",
+    "name": "Angkor Wat",
+    "lat": 13.4125,
+    "lng": 103.8670,
+    "city": "Siem Reap",
+    "country": "Cambodia",
+    "blurb": "Largest religious monument in the world, built in the 12th century."
+  }
+]
