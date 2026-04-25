@@ -1,9 +1,13 @@
 import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import wonders from '../../data/wonders.json';
 import { getAllPlans } from '../../redux/plans';
 import { getAllPlaces } from '../../redux/places';
 import { getAllStories } from '../../redux/stories';
+import { useModal } from '../../context/Modal';
+import LoginFormModal from '../LoginFormModal';
+import SignupFormModal from '../SignupFormModal';
 import GlobeErrorBoundary from './GlobeErrorBoundary';
 import WonderPanel from './WonderPanel';
 import './Home.css';
@@ -12,9 +16,14 @@ const Globe = lazy(() => import('react-globe.gl'));
 
 function Home() {
   const dispatch = useDispatch();
+  const sessionUser = useSelector((s) => s.session.user);
+  const { setModalContent } = useModal();
   const globeRef = useRef();
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [selected, setSelected] = useState(null);
+
+  const openSignup = () => setModalContent(<SignupFormModal />);
+  const openLogin = () => setModalContent(<LoginFormModal />);
 
   useEffect(() => {
     dispatch(getAllPlans());
@@ -61,6 +70,27 @@ function Home() {
       <div className="home-globe-overlay">
         <h1>Where to next?</h1>
         <p>Spin the globe. Click a wonder. Plan, share, and tell its story.</p>
+        <div className="home-hero-actions">
+          {sessionUser ? (
+            <>
+              <Link to="/plans/new" className="home-hero-cta home-hero-cta-primary">
+                Start a new plan
+              </Link>
+              <Link to="/plans/current" className="home-hero-cta home-hero-cta-secondary">
+                View my plans
+              </Link>
+            </>
+          ) : (
+            <>
+              <button type="button" className="home-hero-cta home-hero-cta-primary" onClick={openSignup}>
+                Join Traveler Note
+              </button>
+              <button type="button" className="home-hero-cta home-hero-cta-secondary" onClick={openLogin}>
+                Log in
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
       <div id="home-globe-stage" className="home-globe-stage">

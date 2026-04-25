@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import { useModal } from '../../context/Modal';
 import SignupFormModal from '../SignupFormModal';
 
 const norm = (s) => (s || '').toLowerCase();
@@ -26,6 +26,7 @@ function matchesStory(story, wonder) {
 function WonderPanel({ wonder, onClose }) {
   const [tab, setTab] = useState('places');
   const sessionUser = useSelector((s) => s.session.user);
+  const { setModalContent } = useModal();
   const plans = Object.values(useSelector((s) => s.plans || {}));
   const places = Object.values(useSelector((s) => s.places || {}));
   const stories = Object.values(useSelector((s) => s.stories || {}));
@@ -72,12 +73,13 @@ function WonderPanel({ wonder, onClose }) {
                 Add a {active.label.slice(0, -1)}
               </Link>
             ) : (
-              <div className="wonder-panel-cta-wrap">
-                <OpenModalMenuItem
-                  itemText={`Sign up to add a ${active.label.slice(0, -1)}`}
-                  modalComponent={<SignupFormModal />}
-                />
-              </div>
+              <button
+                type="button"
+                className="wonder-panel-cta"
+                onClick={() => setModalContent(<SignupFormModal />)}
+              >
+                Sign up to add a {active.label.slice(0, -1)}
+              </button>
             )}
           </div>
         ) : (
