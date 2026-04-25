@@ -1,6 +1,7 @@
-import { Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import * as THREE from 'three';
 import wonders from '../../data/wonders.json';
 import { getAllPlans } from '../../redux/plans';
 import { getAllPlaces } from '../../redux/places';
@@ -10,11 +11,18 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import GlobeErrorBoundary from './GlobeErrorBoundary';
 import WonderPanel from './WonderPanel';
-import './Home.css';
+import './HomePixel.css';
 
 const Globe = lazy(() => import('react-globe.gl'));
 
-function Home() {
+const PALETTE = ['#ff5e7e', '#ffd24a', '#3ec1ff', '#7be36a', '#c084ff', '#ff9b54'];
+const colorFor = (id) => {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return PALETTE[h % PALETTE.length];
+};
+
+function HomePixel() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((s) => s.session.user);
   const { setModalContent } = useModal();
@@ -34,7 +42,7 @@ function Home() {
 
   useEffect(() => {
     const update = () => {
-      const el = document.getElementById('home-globe-stage');
+      const el = document.getElementById('home-pixel-stage');
       if (el) setSize({ w: el.clientWidth, h: el.clientHeight });
     };
     update();
@@ -53,12 +61,41 @@ function Home() {
     }
   }, [selected, hoveredId, size]);
 
-  const points = useMemo(() => wonders.map((w) => ({ ...w })), []);
-
-  const ringColorFn = useMemo(
-    () => () => (t) => `rgba(255, 173, 199, ${1 - t})`,
-    [],
-  );
+  // Force pixelated texture filtering after the globe material loads.
+  useEffect(() => {
+    let cancelled = false;
+    const apply = () => {
+      if (cancelled) return;
+      const g = globeRef.current;
+      const material = g?.globeMaterial?.();
+      const map = material?.map;
+      if (!map) return setTimeout(apply, 200);
+      // Downscale to give chunky pixel look, then nearest-filter on output.
+      const img = map.image;
+      if (img && img.width) {
+        const scale = 8;
+        const c = document.createElement('canvas');
+        c.width = Math.max(64, Math.floor(img.width / scale));
+        c.height = Math.max(32, Math.floor(img.height / scale));
+        const ctx = c.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(img, 0, 0, c.width, c.height);
+        const tex = new THREE.CanvasTexture(c);
+        tex.magFilter = THREE.NearestFilter;
+        tex.minFilter = THREE.NearestFilter;
+        tex.colorSpace = THREE.SRGBColorSpace;
+        material.map = tex;
+        material.needsUpdate = true;
+      } else {
+        setTimeout(apply, 200);
+      }
+    };
+    const t = setTimeout(apply, 300);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
+  }, [size]);
 
   const handleClick = (point) => {
     setSelected(point);
@@ -69,39 +106,37 @@ function Home() {
   };
 
   return (
-    <div className="home-globe">
-      <div className="home-globe-overlay">
-        <h1>Where to next?</h1>
-        <p>Spin the globe. Click a wonder. Plan, share, and tell its story.</p>
-        <div className="home-hero-actions">
+    <div className="home-pixel">
+      <div className="home-pixel-overlay">
+        <h1>WHERE TO NEXT?</h1>
+        <p>SPIN. CLICK. EXPLORE.</p>
+        <div className="home-pixel-actions">
           {sessionUser ? (
             <>
-              <Link to="/plans/new" className="home-hero-cta home-hero-cta-primary">
-                Start a new plan
+              <Link to="/plans/new" className="home-pixel-btn home-pixel-btn-primary">
+                NEW PLAN
               </Link>
-              <Link to="/plans/current" className="home-hero-cta home-hero-cta-secondary">
-                View my plans
+              <Link to="/plans/current" className="home-pixel-btn home-pixel-btn-secondary">
+                MY PLANS
               </Link>
             </>
           ) : (
             <>
-              <button type="button" className="home-hero-cta home-hero-cta-primary" onClick={openSignup}>
-                Join Traveler Note
+              <button type="button" className="home-pixel-btn home-pixel-btn-primary" onClick={openSignup}>
+                JOIN
               </button>
-              <button type="button" className="home-hero-cta home-hero-cta-secondary" onClick={openLogin}>
-                Log in
+              <button type="button" className="home-pixel-btn home-pixel-btn-secondary" onClick={openLogin}>
+                LOG IN
               </button>
             </>
           )}
         </div>
-        <Link to="/preview/pixel" className="home-hero-preview-link">
-          ✨ try the pixel-art version
-        </Link>
+        <Link to="/" className="home-pixel-back">← back to cute</Link>
       </div>
 
-      <div id="home-globe-stage" className="home-globe-stage">
+      <div id="home-pixel-stage" className="home-pixel-stage">
         <GlobeErrorBoundary>
-          <Suspense fallback={<div className="home-globe-loading">Loading globe…</div>}>
+          <Suspense fallback={<div className="home-pixel-loading">LOADING…</div>}>
             {size.w > 0 && (
               <Globe
                 ref={globeRef}
@@ -109,31 +144,22 @@ function Home() {
                 height={size.h}
                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-day.jpg"
                 backgroundColor="rgba(0,0,0,0)"
-                htmlElementsData={points}
+                htmlElementsData={wonders}
                 htmlLat="lat"
                 htmlLng="lng"
                 htmlAltitude={0.01}
                 htmlElement={(d) => {
                   const el = document.createElement('div');
-                  el.className = 'wonder-marker' + (hoveredId === d.id ? ' is-hovered' : '');
-                  el.innerHTML = `<span class="wonder-marker-emoji">${d.emoji || '📍'}</span>`;
+                  el.className = 'pixel-marker' + (hoveredId === d.id ? ' is-hovered' : '');
+                  el.style.background = colorFor(d.id);
                   el.title = `${d.name} — ${d.city}, ${d.country}`;
-                  el.style.cursor = 'pointer';
                   el.addEventListener('click', () => handleClick(d));
                   el.addEventListener('mouseenter', () => setHoveredId(d.id));
                   el.addEventListener('mouseleave', () => setHoveredId(null));
                   return el;
                 }}
-                ringsData={points}
-                ringLat="lat"
-                ringLng="lng"
-                ringMaxRadius={2.2}
-                ringPropagationSpeed={1.2}
-                ringRepeatPeriod={2200}
-                ringColor={ringColorFn}
-                ringAltitude={0.005}
-                atmosphereColor="#ffd6e8"
-                atmosphereAltitude={0.22}
+                atmosphereColor="#ff66aa"
+                atmosphereAltitude={0.08}
               />
             )}
           </Suspense>
@@ -147,4 +173,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePixel;

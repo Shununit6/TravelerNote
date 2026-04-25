@@ -2,6 +2,7 @@
   {
     "id": "great-wall",
     "name": "Great Wall of China",
+    "emoji": "🏯",
     "lat": 40.4319,
     "lng": 116.5704,
     "city": "Beijing",
@@ -11,6 +12,7 @@
   {
     "id": "machu-picchu",
     "name": "Machu Picchu",
+    "emoji": "🗿",
     "lat": -13.1631,
     "lng": -72.5450,
     "city": "Cusco",
@@ -20,6 +22,7 @@
   {
     "id": "petra",
     "name": "Petra",
+    "emoji": "🕌",
     "lat": 30.3285,
     "lng": 35.4444,
     "city": "Ma'an",
@@ -29,6 +32,7 @@
   {
     "id": "colosseum",
     "name": "Colosseum",
+    "emoji": "🏛️",
     "lat": 41.8902,
     "lng": 12.4922,
     "city": "Rome",
@@ -38,6 +42,7 @@
   {
     "id": "taj-mahal",
     "name": "Taj Mahal",
+    "emoji": "🕊️",
     "lat": 27.1751,
     "lng": 78.0421,
     "city": "Agra",
@@ -47,6 +52,7 @@
   {
     "id": "christ-redeemer",
     "name": "Christ the Redeemer",
+    "emoji": "✨",
     "lat": -22.9519,
     "lng": -43.2105,
     "city": "Rio de Janeiro",
@@ -56,6 +62,7 @@
   {
     "id": "chichen-itza",
     "name": "Chichen Itza",
+    "emoji": "🌞",
     "lat": 20.6843,
     "lng": -88.5678,
     "city": "Yucatan",
@@ -65,6 +72,7 @@
   {
     "id": "eiffel-tower",
     "name": "Eiffel Tower",
+    "emoji": "🗼",
     "lat": 48.8584,
     "lng": 2.2945,
     "city": "Paris",
@@ -74,6 +82,7 @@
   {
     "id": "pyramids-giza",
     "name": "Pyramids of Giza",
+    "emoji": "🐪",
     "lat": 29.9792,
     "lng": 31.1342,
     "city": "Giza",
@@ -83,6 +92,7 @@
   {
     "id": "santorini",
     "name": "Santorini",
+    "emoji": "🌊",
     "lat": 36.3932,
     "lng": 25.4615,
     "city": "Santorini",
@@ -92,6 +102,7 @@
   {
     "id": "mount-fuji",
     "name": "Mount Fuji",
+    "emoji": "🗻",
     "lat": 35.3606,
     "lng": 138.7274,
     "city": "Fujinomiya",
@@ -101,6 +112,7 @@
   {
     "id": "grand-canyon",
     "name": "Grand Canyon",
+    "emoji": "🏞️",
     "lat": 36.1069,
     "lng": -112.1129,
     "city": "Grand Canyon Village",
@@ -110,6 +122,7 @@
   {
     "id": "sydney-opera",
     "name": "Sydney Opera House",
+    "emoji": "🎭",
     "lat": -33.8568,
     "lng": 151.2153,
     "city": "Sydney",
@@ -119,6 +132,7 @@
   {
     "id": "iguazu-falls",
     "name": "Iguazu Falls",
+    "emoji": "💦",
     "lat": -25.6953,
     "lng": -54.4367,
     "city": "Foz do Iguacu",
@@ -128,6 +142,7 @@
   {
     "id": "angkor-wat",
     "name": "Angkor Wat",
+    "emoji": "🛕",
     "lat": 13.4125,
     "lng": 103.8670,
     "city": "Siem Reap",
