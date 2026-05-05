@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Home from '../components/Home';
-import HomePixel from '../components/Home/HomePixel';
+// import HomePixel from '../components/Home/HomePixel';
 import Plans from '../components/Plans';
 import Layout from './Layout';
 import PlanDetails from '../components/PlanDetails';
@@ -97,10 +97,10 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-      {
-        path: "/preview/pixel",
-        element: <HomePixel />,
-      },
+      // {
+      //   path: "/preview/pixel",
+      //   element: <HomePixel />,
+      // },
       // {
       //   path: "/",
       //   element: <FrontPage />,

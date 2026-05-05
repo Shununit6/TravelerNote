@@ -3,6 +3,42 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import SignupFormModal from '../SignupFormModal';
+import PlaceForm from '../PlaceForm';
+import PlanForm from '../PlanForm';
+import StoryForm from '../StoryForm';
+
+const newFormFor = (key) => {
+  if (key === 'places') {
+    return (
+      <PlaceForm
+        place={{ name: '', type: '', description: '' }}
+        formType="Create Place"
+      />
+    );
+  }
+  if (key === 'stories') {
+    return (
+      <StoryForm
+        story={{ title: '', description: '', article_url: '', shorts_url: '' }}
+        formType="Create Story"
+      />
+    );
+  }
+  return (
+    <PlanForm
+      plan={{
+        name: '',
+        number_traveler: '',
+        private: '',
+        city: '',
+        country: '',
+        start_date: '',
+        end_date: '',
+      }}
+      formType="Create Plan"
+    />
+  );
+};
 
 const norm = (s) => (s || '').toLowerCase();
 
@@ -36,9 +72,9 @@ function WonderPanel({ wonder, onClose }) {
   const matchedStories = stories.filter((s) => matchesStory(s, wonder));
 
   const tabs = [
-    { key: 'places', label: 'Places', items: matchedPlaces, newPath: '/places/new' },
-    { key: 'stories', label: 'Stories', items: matchedStories, newPath: '/stories/new' },
-    { key: 'plans', label: 'Plans', items: matchedPlans, newPath: '/plans/new' },
+    { key: 'places', label: 'Places', items: matchedPlaces },
+    { key: 'stories', label: 'Stories', items: matchedStories },
+    { key: 'plans', label: 'Plans', items: matchedPlans },
   ];
   const active = tabs.find((t) => t.key === tab);
 
@@ -69,9 +105,13 @@ function WonderPanel({ wonder, onClose }) {
           <div className="wonder-panel-empty">
             <p>No {active.label.toLowerCase()} here yet.</p>
             {sessionUser ? (
-              <Link to={active.newPath} className="wonder-panel-cta">
+              <button
+                type="button"
+                className="wonder-panel-cta"
+                onClick={() => setModalContent(newFormFor(active.key))}
+              >
                 Add a {active.label.slice(0, -1)}
-              </Link>
+              </button>
             ) : (
               <button
                 type="button"

@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TravelerNote — landing preview</title>
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --surface: #FFFFFF;
+    --text: #0F1419;
+    --text-muted: #5A6470;
+    --border: #E8E6DF;
+    --accent: #1E5F8B;
+    --accent-hover: #174a6e;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --max: 1120px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .container {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Nav */
+  .nav {
+    height: 64px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .brand {
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+  .nav-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.15s ease;
+  }
+  .nav-link:hover { color: var(--text); }
+
+  /* Hero */
+  .hero {
+    padding: 96px 0 96px;
+  }
+  .hero h1 {
+    font-size: 56px;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    max-width: 720px;
+  }
+  .hero h1 .muted {
+    color: var(--text-muted);
+    font-weight: 700;
+  }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 0 40px;
+  }
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 48px;
+  }
+  .btn {
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    padding: 14px 8px;
+  }
+  .btn-ghost:hover { color: var(--accent); }
+
+  .stack-divider {
+    width: 32px;
+    height: 1px;
+    background: var(--border);
+    margin: 0 0 16px;
+  }
+  .stack {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.01em;
+  }
+  .stack span + span::before {
+    content: '·';
+    margin: 0 10px;
+    opacity: 0.5;
+  }
+
+  /* Section */
+  section {
+    padding: 96px 0;
+    border-top: 1px solid var(--border);
+  }
+  .section-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+  .section-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin: 0 0 64px;
+    max-width: 600px;
+  }
+
+  /* Feature cards */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .card-image {
+    aspect-ratio: 16 / 10;
+    background: linear-gradient(135deg, #E8E6DF 0%, #D4D1C8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9A968B;
+    font-size: 13px;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-body { padding: 24px; }
+  .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .card-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  /* Tech section */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    max-width: 720px;
+    margin-bottom: 48px;
+  }
+  .tech-col h3 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+  }
+  .tech-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .tech-col li {
+    font-size: 15px;
+    padding: 6px 0;
+    color: var(--text);
+  }
+  .tech-actions {
+    display: flex;
+    gap: 16px;
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1.5px solid var(--text);
+    padding: 12px 24px;
+  }
+  .btn-outline:hover {
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer .links { display: flex; gap: 24px; }
+  footer a:hover { color: var(--text); }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .hero { padding: 64px 0; }
+    .hero h1 { font-size: 40px; }
+    .hero-sub { font-size: 16px; }
+    section { padding: 64px 0; }
+    .section-title { font-size: 26px; margin-bottom: 40px; }
+    .features { grid-template-columns: 1fr; }
+    .tech-grid { grid-template-columns: 1fr; gap: 32px; }
+    .cta-row { flex-direction: column; align-items: stretch; }
+    .btn { justify-content: center; }
+    footer .container { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <span class="brand">TravelerNote</span>
+    <a class="nav-link" href="#">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <h1>A travel journal <span class="muted">for plans, places, and stories.</span></h1>
+    <p class="hero-sub">Log trips by city. Save the places you loved. Write the stories you want to remember.</p>
+
+    <div class="cta-row">
+      <button class="btn btn-primary">Try the Demo  →</button>
+      <a class="btn btn-ghost" href="#">Sign up</a>
+    </div>
+
+    <div class="stack-divider"></div>
+    <div class="stack">
+      <span>Flask</span><span>React</span><span>Redux</span><span>SQLAlchemy</span><span>Vite</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <p class="section-eyebrow">What you can do</p>
+    <h2 class="section-title">Three things, done well.</h2>
+
+    <div class="features">
+      <article class="card">
+        <div class="card-image">[ plans screenshot ]</div>
+        <div class="card-body">
+          <h3 class="card-title">Plan trips</h3>
+          <p class="card-text">Group itineraries by city and country. Edit, reorder, and revisit them later.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-image">[ places screenshot ]</div>
+        <div class="card-body">
+          <h3 class="card-title">Save places</h3>
+          <p class="card-text">Capture the spots that mattered with photos, notes, and a type to find them again.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-image">[ stories screenshot ]</div>
+        <div class="card-body">
+          <h3 class="card-title">Tell stories</h3>
+          <p class="card-text">Long-form writing with image carousels for the trips worth remembering in detail.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-eyebrow">Built with</p>
+    <h2 class="section-title">A real full-stack app, not a static page.</h2>
+
+    <div class="tech-grid">
+      <div class="tech-col">
+        <h3>Backend</h3>
+        <ul>
+          <li>Flask 3 + SQLAlchemy</li>
+          <li>Session auth + CSRF</li>
+          <li>SQLite (dev) / PostgreSQL (prod)</li>
+          <li>AWS S3 image upload</li>
+          <li>Hosted on Render</li>
+        </ul>
+      </div>
+      <div class="tech-col">
+        <h3>Frontend</h3>
+        <ul>
+          <li>React 18 + Vite</li>
+          <li>Redux Toolkit</li>
+          <li>React Router</li>
+          <li>Custom CSS, no UI framework</li>
+          <li>Responsive, mobile-first</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tech-actions">
+      <a class="btn btn-outline" href="#">View on GitHub</a>
+      <a class="btn btn-ghost" href="#">Live demo ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span>Built by Shun</span>
+    <div class="links">
+      <a href="mailto:shununit6@gmail.com">shununit6@gmail.com</a>
+      <a href="#">GitHub</a>
+      <a href="#">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

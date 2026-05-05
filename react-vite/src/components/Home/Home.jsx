@@ -94,9 +94,9 @@ function Home() {
             </>
           )}
         </div>
-        <Link to="/preview/pixel" className="home-hero-preview-link">
+        {/* <Link to="/preview/pixel" className="home-hero-preview-link">
           ✨ try the pixel-art version
-        </Link>
+        </Link> */}
       </div>
 
       <div id="home-globe-stage" className="home-globe-stage">
@@ -109,7 +109,7 @@ function Home() {
                 height={size.h}
                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-day.jpg"
                 backgroundColor="rgba(0,0,0,0)"
-                htmlElementsData={points}
+                htmlElementsData={selected ? [] : points}
                 htmlLat="lat"
                 htmlLng="lng"
                 htmlAltitude={0.01}
